@@ -3,6 +3,20 @@
   "version": "1.0.0",
   "main": "/lib/index.js",
   "author": "Michael Kenji Wilkins <kenji.wilkins@gmail.com>",
+  "description": "A Vue 3 renderer for Notion pages",
+  "homepage": "https://github.com/kenjiwilkins/notion-vue-renderer",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kenjiwilkins/notion-vue-renderer.git"
+  },
+  "keywords": [
+    "notion",
+    "vue",
+    "vue3",
+    "vue3-renderer",
+    "notion-renderer",
+    "notion-vue-renderer"
+  ],
   "license": "MIT",
   "private": false,
   "scripts": {
