@@ -12,6 +12,7 @@ export interface IRichText {
   type: "text";
   text: IText;
   annotations: IAnnotations;
+  href?: string;
 }
 
 export interface IAnnotations {

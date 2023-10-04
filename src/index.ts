@@ -27,6 +27,31 @@ function handleAnnotationStyles(annotation: IAnnotations) {
   return styles;
 }
 
+function defaultRichTextRenderer(
+  richTextArray: IRichText[],
+  key,
+  annotationRenderer
+) {
+  if (!richTextArray.length) {
+    return null;
+  }
+  const result = richTextArray.map((richText, i) => {
+    const attributes = {
+      style: handleAnnotationStyles(richText.annotations),
+      key: `${key}-annotation-${i}`,
+    };
+    if (richText.text.link) attributes["href"] = richText.href;
+    if (i < richTextArray.length - 1)
+      attributes["style"]["margin-right"] = "4px";
+    return h(
+      richText.text.link ? "a" : "span",
+      attributes,
+      richText.text.content
+    );
+  });
+  return h("span", { key }, result);
+}
+
 const defaultBlockRenderers = {
   [IBLOCKS.heading_1]: (block, key, next) => {
     return h(
@@ -34,7 +59,6 @@ const defaultBlockRenderers = {
       {
         key,
         style: {
-          ...handleAnnotationStyles(block.heading_1.rich_text[0].annotations),
           "font-size": "1.875em",
         },
       },
@@ -47,7 +71,6 @@ const defaultBlockRenderers = {
       {
         key,
         style: {
-          ...handleAnnotationStyles(block.heading_2.rich_text[0].annotations),
           "font-size": "1.5em",
         },
       },
@@ -56,11 +79,10 @@ const defaultBlockRenderers = {
   },
   [IBLOCKS.heading_3]: (block, key, next) => {
     return h(
-      "h2",
+      "h3",
       {
         key,
         style: {
-          ...handleAnnotationStyles(block.heading_3.rich_text[0].annotations),
           "font-size": "1.25em",
         },
       },
@@ -73,7 +95,9 @@ const defaultBlockRenderers = {
       {
         key,
         style: {
-          ...handleAnnotationStyles(block.paragraph.rich_text[0].annotations),
+          "font-size": "1em",
+          "word-wrap": "break-word",
+          "white-space": "pre-wrap",
         },
       },
       next
@@ -103,10 +127,16 @@ function renderBlockList(blocks, key, renderer) {
 
 function renderBlock(block, key, renderer) {
   const blockRenderer = renderer.block;
+  if (!blockRenderer[block.type]) {
+    console.warn(`[notion-vue-renderer] Unsupported block type ${block.type}`);
+    return null;
+  } else {
+    console.log(blockRenderer[block.type]);
+  }
   return blockRenderer[block.type](
     block,
     key,
-    block[block.type].rich_text[0].plain_text
+    defaultRichTextRenderer(block[block.type].rich_text, key, renderer)
   );
 }
 
