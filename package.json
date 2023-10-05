@@ -1,6 +1,6 @@
 {
   "name": "notion-vue-renderer",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "/lib/index.js",
   "author": "Michael Kenji Wilkins <kenji.wilkins@gmail.com>",
   "description": "A Vue 3 renderer for Notion pages",
