@@ -79,7 +79,7 @@ yarn add notion-vue-renderer
   - `HEADING_1`
   - `HEADING_2`
   - `HEADING_3`
-  - `UL_LIST`
+  - `BULLETED_LIST_ITEM`
 
 - `ANNOTATIONS`
   - `BOLD`

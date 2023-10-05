@@ -1,0 +1,10 @@
+node_modules
+/src
+/tests
+setup.js
+tsconfig.json
+vite.config.js
+yarn.lock
+index.html
+.gitignore
+.gitattributes

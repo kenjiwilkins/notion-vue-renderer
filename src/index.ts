@@ -103,6 +103,17 @@ const defaultBlockRenderers = {
       next
     );
   },
+  [IBLOCKS.bulleted_list_item]: (block, key, next) => {
+    const childeLi = h("li", { key }, next);
+    return h(
+      "ul",
+      {
+        key,
+        style: {},
+      },
+      childeLi
+    );
+  },
   text: (richTextArray: IRichText[], key, annotationRenderer) => {
     if (!richTextArray.length) {
       return null;
