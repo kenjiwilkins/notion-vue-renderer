@@ -7,6 +7,7 @@ export const IBLOCKS = {
   heading_3: "heading_3",
   paragraph: "paragraph",
   bulleted_list_item: "bulleted_list_item",
+  numbered_list_item: "numbered_list_item",
 };
 
 export interface IRichText {
@@ -65,6 +66,14 @@ export interface IParagraph {
 export interface IBulletedListItem {
   type: "bulleted_list_item";
   bulleted_list_item: {
+    rich_text: IRichText[];
+  };
+  plain_text: string;
+}
+
+export interface INumberedListItem {
+  type: "numbered_list_item";
+  numbered_list_item: {
     rich_text: IRichText[];
   };
   plain_text: string;
