@@ -1,0 +1,12 @@
+name: "Auto Pull Request Approval"
+on: status
+jobs:
+  when_all_status_checks_pass:
+    runs-on: ubuntu-latest
+    if: github.event.state == 'success' && github.actor_id == 19940324
+    permissions:
+      pull-requests: write
+    steps:
+      - uses: hmarr/auto-approve-action@v3
+        with:
+          review-message: "Auto approved automated PR"
