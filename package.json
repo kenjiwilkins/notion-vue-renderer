@@ -2,6 +2,7 @@
   "name": "notion-vue-renderer",
   "version": "1.0.2",
   "main": "/lib/index.js",
+  "types": "/lib/types/index.d.ts",
   "author": "Michael Kenji Wilkins <kenji.wilkins@gmail.com>",
   "description": "A Vue 3 renderer for Notion pages",
   "homepage": "https://github.com/kenjiwilkins/notion-vue-renderer",
@@ -21,7 +22,7 @@
   "private": false,
   "scripts": {
     "test": "vitest run --silent",
-    "build": "tsc",
+    "build": "tsc -d",
     "dev:tsc": "tsc -w",
     "dev": "vite"
   },
