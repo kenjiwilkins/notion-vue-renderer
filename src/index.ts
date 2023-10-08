@@ -136,6 +136,42 @@ const defaultBlockRenderers = {
       childeLi
     );
   },
+  [IBLOCKS.to_do]: (block, key, next) => {
+    const checkBox = h("input", {
+      type: "checkbox",
+      style: {
+        boxSizing: "border-box",
+        height: "16px",
+        width: "16px",
+        border: block.to_do.checked ? "none" : "1px solid black",
+        backgroundColor: block.to_do.checked ? "rgb(35, 131, 226)" : "white",
+      },
+      checked: block.to_do.checked,
+    });
+    const checkBoxTextStyle = {
+      textDecoration: block.to_do.checked
+        ? "line-through rgba(55, 53, 47, 0.25)"
+        : "none",
+      color: block.to_do.checked ? "rgba(55, 53, 47, 0.65)" : "inherit",
+    };
+    const checkBoxTextArea = h(
+      "div",
+      { key, style: { ...checkBoxTextStyle, padding: "0.25em  0" } },
+      next
+    );
+    return h(
+      "div",
+      {
+        key,
+        style: {
+          display: "flex",
+          gap: "0.5em",
+          alignItems: "center",
+        },
+      },
+      [checkBox, checkBoxTextArea]
+    );
+  },
   text: (richTextArray: IRichText[], key, annotationRenderer) => {
     if (!richTextArray.length) {
       return null;
@@ -154,7 +190,11 @@ const defaultBlockRenderers = {
   },
 };
 
-function renderBlockList(blocks: IBlock[], key: string, renderer: IRenderer) {
+function renderBlockList(
+  blocks: IBlock[],
+  key: string,
+  renderer: IRenderer
+): VNode[] {
   return blocks.map((block, i) => renderBlock(block, `${key}-${i}`, renderer));
 }
 
@@ -196,11 +236,11 @@ const RichText = ({
   return formatLists(removeNulls(results));
 };
 
-function removeNulls(array) {
+function removeNulls(array: VNode[]) {
   return array.filter((item) => item !== null);
 }
 
-function formatLists(blocks) {
+function formatLists(blocks: any[]): VNode[] {
   const output = [];
   const indexesToRemove = [];
   let lastBlock: VNode = null;
