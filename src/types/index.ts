@@ -1,6 +1,22 @@
-export interface IBlocks {
-  IHeading1: IHeading1;
+import { VNode } from "vue";
+
+export interface IRichTextProps {
+  blocks: IBlock[];
+  blockRenderers?: IBlockRenderer;
+  annotationRenderers?: any;
 }
+
+// IBlocks has no properties in common with IHeading1, IHeading2, IHeading3, IParagraph, IBulletedListItem, INumberedListItem.
+export interface IBlock {
+  type: string;
+  heading_1?: IHeading1;
+  heading_2?: IHeading2;
+  heading_3?: IHeading3;
+  paragraph?: IParagraph;
+  bulleted_list_item?: IBulletedListItem;
+  numbered_list_item?: INumberedListItem;
+}
+
 export const IBLOCKS = {
   heading_1: "heading_1",
   heading_2: "heading_2",
@@ -77,4 +93,12 @@ export interface INumberedListItem {
     rich_text: IRichText[];
   };
   plain_text: string;
+}
+
+export interface IBlockRenderer {
+  [key: string]: (block: IBlock, key: string, next: VNode) => VNode | any;
+}
+
+export interface IRenderer {
+  block: IBlockRenderer;
 }
