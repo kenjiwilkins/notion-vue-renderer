@@ -76,7 +76,7 @@ const defaultBlockRenderers = {
       next
     );
   },
-  [IBLOCKS.heading_2]: (block: IBlock, key: string, next: VNode) => {
+  [IBLOCKS.heading_2]: (block, key, next) => {
     return h(
       "h2",
       {
@@ -88,7 +88,7 @@ const defaultBlockRenderers = {
       next
     );
   },
-  [IBLOCKS.heading_3]: (block: IBlock, key: string, next: VNode) => {
+  [IBLOCKS.heading_3]: (block, key, next) => {
     return h(
       "h3",
       {
@@ -100,7 +100,7 @@ const defaultBlockRenderers = {
       next
     );
   },
-  [IBLOCKS.paragraph]: (block: IBlock, key: string, next: VNode) => {
+  [IBLOCKS.paragraph]: (block, key, next) => {
     return h(
       "p",
       {
@@ -114,7 +114,7 @@ const defaultBlockRenderers = {
       next
     );
   },
-  [IBLOCKS.bulleted_list_item]: (block: IBlock, key: string, next: VNode) => {
+  [IBLOCKS.bulleted_list_item]: (block, key, next) => {
     const childeLi = h("li", { key, style: { padding: "0.25em  0" } }, next);
     return h(
       "ul",
@@ -125,7 +125,7 @@ const defaultBlockRenderers = {
       childeLi
     );
   },
-  [IBLOCKS.numbered_list_item]: (block: IBlock, key: string, next: VNode) => {
+  [IBLOCKS.numbered_list_item]: (block, key, next) => {
     const childeLi = h("li", { key, style: { padding: "0.25em  0" } }, next);
     return h(
       "ol",
@@ -136,7 +136,7 @@ const defaultBlockRenderers = {
       childeLi
     );
   },
-  [IBLOCKS.to_do]: (block: IBlock, key: string, next: VNode) => {
+  [IBLOCKS.to_do]: (block, key, next) => {
     const checkBox = h("input", {
       type: "checkbox",
       style: {
