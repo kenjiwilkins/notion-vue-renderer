@@ -1,6 +1,5 @@
 <template>
   <renderer :blocks="document" />
-  <input type="checkbox" />
 </template>
 <script>
 // import renderer from "../lib/index.js";
@@ -17,4 +16,3 @@ export default {
   },
 };
 </script>
-<style></style>

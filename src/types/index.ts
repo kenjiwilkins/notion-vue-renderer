@@ -15,7 +15,6 @@ export interface IBlock {
   paragraph?: IParagraph;
   bulleted_list_item?: IBulletedListItem;
   numbered_list_item?: INumberedListItem;
-  to_do?: IToDo;
 }
 
 export const IBLOCKS = {
@@ -25,7 +24,6 @@ export const IBLOCKS = {
   paragraph: "paragraph",
   bulleted_list_item: "bulleted_list_item",
   numbered_list_item: "numbered_list_item",
-  to_do: "to_do",
 };
 
 export interface IRichText {
@@ -95,16 +93,6 @@ export interface INumberedListItem {
     rich_text: IRichText[];
   };
   plain_text: string;
-}
-
-export interface IToDo {
-  type: "to_do";
-  to_do: {
-    rich_text: IRichText[];
-    checked: boolean;
-  };
-  plain_text: string;
-  checked: boolean;
 }
 
 export interface IBlockRenderer {
