@@ -1,5 +1,12 @@
-import { h } from "vue";
-import { IBLOCKS, IAnnotations, IRichText } from "./types";
+import { VNode, h } from "vue";
+import {
+  IBLOCKS,
+  IAnnotations,
+  IRichText,
+  IRichTextProps,
+  IBlock,
+  IRenderer,
+} from "./types";
 
 export const defaultFontStyle = {
   "font-family": `ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"`,
@@ -33,7 +40,7 @@ function handleAnnotationStyles(annotation: IAnnotations) {
 
 function defaultRichTextRenderer(
   richTextArray: IRichText[],
-  key,
+  key: string,
   annotationRenderer
 ) {
   if (!richTextArray.length) {
@@ -57,7 +64,7 @@ function defaultRichTextRenderer(
 }
 
 const defaultBlockRenderers = {
-  [IBLOCKS.heading_1]: (block, key, next) => {
+  [IBLOCKS.heading_1]: (block: IBlock, key: string, next: VNode) => {
     return h(
       "h1",
       {
@@ -147,11 +154,11 @@ const defaultBlockRenderers = {
   },
 };
 
-function renderBlockList(blocks, key, renderer) {
+function renderBlockList(blocks: IBlock[], key: string, renderer: IRenderer) {
   return blocks.map((block, i) => renderBlock(block, `${key}-${i}`, renderer));
 }
 
-function renderBlock(block, key, renderer) {
+function renderBlock(block: IBlock, key: string, renderer: IRenderer) {
   const blockRenderer = renderer.block;
   if (!blockRenderer[block.type]) {
     console.warn(
@@ -166,7 +173,11 @@ function renderBlock(block, key, renderer) {
   );
 }
 
-const RichText = ({ blockRenderers, annotationRenderers, blocks }) => {
+const RichText = ({
+  blockRenderers,
+  annotationRenderers,
+  blocks,
+}: IRichTextProps) => {
   if (!blocks) {
     return console.warn("[notion-vue-renderer] No blocks provided");
   }
@@ -174,7 +185,13 @@ const RichText = ({ blockRenderers, annotationRenderers, blocks }) => {
     block: {
       ...defaultBlockRenderers,
     },
-  };
+  } as any;
+  if (blockRenderers) {
+    renderer.block = {
+      ...renderer.block,
+      ...blockRenderers,
+    };
+  }
   const results = renderBlockList(blocks, "block", renderer);
   return formatLists(removeNulls(results));
 };
@@ -184,15 +201,13 @@ function removeNulls(array) {
 }
 
 function formatLists(blocks) {
-  // combine list items into single list when they are next to each other
   const output = [];
   const indexesToRemove = [];
-  let lastBlock;
-  let lastBlockIndex;
+  let lastBlock: VNode = null;
   for (const block of blocks) {
     if (lastBlock && block.type === "ul" && lastBlock.type === "ul") {
       const newUnorderedList = h("ul", { key: lastBlock.key }, [
-        ...lastBlock.children,
+        ...(lastBlock.children as VNode[]),
         ...block.children,
       ]);
       output.push(newUnorderedList);
@@ -202,7 +217,7 @@ function formatLists(blocks) {
       const newOrderedList = h(
         "ol",
         { key: lastBlock.key, style: { ...defaultFontStyle } },
-        [...lastBlock.children, ...block.children]
+        [...(lastBlock.children as any), ...block.children]
       );
       output.push(newOrderedList);
       indexesToRemove.push(output.length - 2);
@@ -212,10 +227,9 @@ function formatLists(blocks) {
       lastBlock = block;
     }
   }
-  // remove indexes matched with indexesToRemove
   return output.filter((item, index) => !indexesToRemove.includes(index));
 }
 
-RichText.props = ["blocks"];
+RichText.props = ["blocks", "blockRenderers", "annotationRenderers"];
 
 export default RichText;
