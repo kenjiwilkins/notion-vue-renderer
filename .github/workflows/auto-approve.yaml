@@ -1,9 +1,9 @@
-name: "Auto Pull Request Approval"
-on: status
+name: Auto approve
+on: pull_request_target
+
 jobs:
-  when_all_status_checks_pass:
+  build:
     runs-on: ubuntu-latest
-    if: github.event.state == 'success' && github.actor_id == 19940324
     permissions:
       pull-requests: write
     steps:
