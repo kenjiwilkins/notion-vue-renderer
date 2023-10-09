@@ -15,6 +15,7 @@ export interface IBlock {
   paragraph?: IParagraph;
   bulleted_list_item?: IBulletedListItem;
   numbered_list_item?: INumberedListItem;
+  divider?: IDivider;
 }
 
 export const IBLOCKS = {
@@ -24,6 +25,7 @@ export const IBLOCKS = {
   paragraph: "paragraph",
   bulleted_list_item: "bulleted_list_item",
   numbered_list_item: "numbered_list_item",
+  divider: "divider",
 };
 
 export interface IRichText {
@@ -93,6 +95,11 @@ export interface INumberedListItem {
     rich_text: IRichText[];
   };
   plain_text: string;
+}
+
+export interface IDivider {
+  type: "divider";
+  divider: {};
 }
 
 export interface IBlockRenderer {
