@@ -46,7 +46,7 @@ function defaultRichTextRenderer(
   if (!richTextArray) {
     return null;
   }
-  if (!richTextArray && !richTextArray.length) {
+  if (!richTextArray.length) {
     return null;
   }
   const result = richTextArray.map((richText, i) => {
