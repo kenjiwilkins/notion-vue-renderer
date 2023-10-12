@@ -54,7 +54,7 @@ export interface IText {
 export interface IHeading1 {
   type: "heading_1";
   heading_1: {
-    rich_text: IRichText[];
+    rich_text?: IRichText[];
   };
   plain_text: string;
 }
@@ -62,7 +62,7 @@ export interface IHeading1 {
 export interface IHeading2 {
   type: "heading_2";
   heading_2: {
-    rich_text: IRichText[];
+    rich_text?: IRichText[];
   };
   plain_text: string;
 }
@@ -70,7 +70,7 @@ export interface IHeading2 {
 export interface IHeading3 {
   type: "heading_3";
   heading_3: {
-    rich_text: IRichText[];
+    rich_text?: IRichText[];
   };
   plain_text: string;
 }
@@ -78,7 +78,7 @@ export interface IHeading3 {
 export interface IParagraph {
   type: "paragraph";
   paragraph: {
-    rich_text: IRichText[];
+    rich_text?: IRichText[];
   };
   plain_text: string;
 }
@@ -86,7 +86,7 @@ export interface IParagraph {
 export interface IBulletedListItem {
   type: "bulleted_list_item";
   bulleted_list_item: {
-    rich_text: IRichText[];
+    rich_text?: IRichText[];
   };
   plain_text: string;
 }
@@ -94,7 +94,7 @@ export interface IBulletedListItem {
 export interface INumberedListItem {
   type: "numbered_list_item";
   numbered_list_item: {
-    rich_text: IRichText[];
+    rich_text?: IRichText[];
   };
   plain_text: string;
 }
@@ -102,7 +102,7 @@ export interface INumberedListItem {
 export interface IToDo {
   type: "to_do";
   to_do: {
-    rich_text: IRichText[];
+    rich_text?: IRichText[];
     checked: boolean;
   };
   plain_text: string;
