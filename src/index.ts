@@ -43,10 +43,7 @@ function defaultRichTextRenderer(
   key: string,
   annotationRenderer
 ) {
-  if (!richTextArray) {
-    return null;
-  }
-  if (!richTextArray.length) {
+  if (!richTextArray || !richTextArray.length) {
     return null;
   }
   const result = richTextArray.map((richText, i) => {
