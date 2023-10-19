@@ -43,7 +43,7 @@ function defaultRichTextRenderer(
   key: string,
   annotationRenderer
 ) {
-  if (!richTextArray.length) {
+  if (!richTextArray || !richTextArray.length) {
     return null;
   }
   const result = richTextArray.map((richText, i) => {
@@ -171,6 +171,12 @@ const defaultBlockRenderers = {
       },
       [checkBox, checkBoxTextArea]
     );
+  },
+  [IBLOCKS.divider]: (block, key, next) => {
+    return h("hr", {
+      key,
+      style: { width: "100%", color: "rgba(55, 53, 47, 0.16)" },
+    });
   },
   text: (richTextArray: IRichText[], key, annotationRenderer) => {
     if (!richTextArray.length) {
