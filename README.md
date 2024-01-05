@@ -81,6 +81,8 @@ yarn add notion-vue-renderer
   - `HEADING_3`
   - `BULLETED_LIST_ITEM`
   - `NUMBERED_LIST_ITEM`
+  - `TO_DO_LIST_ITEM`
+  - `DIVIDER`
 
 - `ANNOTATIONS`
   - `BOLD`

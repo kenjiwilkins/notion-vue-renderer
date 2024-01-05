@@ -43,7 +43,7 @@ function defaultRichTextRenderer(
   key: string,
   annotationRenderer
 ) {
-  if (!richTextArray.length) {
+  if (!richTextArray || !richTextArray.length) {
     return null;
   }
   const result = richTextArray.map((richText, i) => {
@@ -76,7 +76,7 @@ const defaultBlockRenderers = {
       next
     );
   },
-  [IBLOCKS.heading_2]: (block, key, next) => {
+  [IBLOCKS.heading_2]: (block: IBlock, key: string, next: VNode) => {
     return h(
       "h2",
       {
@@ -88,7 +88,7 @@ const defaultBlockRenderers = {
       next
     );
   },
-  [IBLOCKS.heading_3]: (block, key, next) => {
+  [IBLOCKS.heading_3]: (block: IBlock, key: string, next: VNode) => {
     return h(
       "h3",
       {
@@ -100,7 +100,7 @@ const defaultBlockRenderers = {
       next
     );
   },
-  [IBLOCKS.paragraph]: (block, key, next) => {
+  [IBLOCKS.paragraph]: (block: IBlock, key: string, next: VNode) => {
     return h(
       "p",
       {
@@ -114,7 +114,7 @@ const defaultBlockRenderers = {
       next
     );
   },
-  [IBLOCKS.bulleted_list_item]: (block, key, next) => {
+  [IBLOCKS.bulleted_list_item]: (block: IBlock, key: string, next: VNode) => {
     const childeLi = h("li", { key, style: { padding: "0.25em  0" } }, next);
     return h(
       "ul",
@@ -125,7 +125,7 @@ const defaultBlockRenderers = {
       childeLi
     );
   },
-  [IBLOCKS.numbered_list_item]: (block, key, next) => {
+  [IBLOCKS.numbered_list_item]: (block: IBlock, key: string, next: VNode) => {
     const childeLi = h("li", { key, style: { padding: "0.25em  0" } }, next);
     return h(
       "ol",
@@ -135,6 +135,48 @@ const defaultBlockRenderers = {
       },
       childeLi
     );
+  },
+  [IBLOCKS.to_do]: (block: IBlock, key: string, next: VNode) => {
+    const checkBox = h("input", {
+      type: "checkbox",
+      style: {
+        boxSizing: "border-box",
+        height: "16px",
+        width: "16px",
+        border: block.to_do.checked ? "none" : "1px solid black",
+        backgroundColor: block.to_do.checked ? "rgb(35, 131, 226)" : "white",
+      },
+      checked: block.to_do.checked,
+    });
+    const checkBoxTextStyle = {
+      textDecoration: block.to_do.checked
+        ? "line-through rgba(55, 53, 47, 0.25)"
+        : "none",
+      color: block.to_do.checked ? "rgba(55, 53, 47, 0.65)" : "inherit",
+    };
+    const checkBoxTextArea = h(
+      "div",
+      { key, style: { ...checkBoxTextStyle, padding: "0.25em  0" } },
+      next
+    );
+    return h(
+      "div",
+      {
+        key,
+        style: {
+          display: "flex",
+          gap: "0.5em",
+          alignItems: "center",
+        },
+      },
+      [checkBox, checkBoxTextArea]
+    );
+  },
+  [IBLOCKS.divider]: (block, key, next) => {
+    return h("hr", {
+      key,
+      style: { width: "100%", color: "rgba(55, 53, 47, 0.16)" },
+    });
   },
   text: (richTextArray: IRichText[], key, annotationRenderer) => {
     if (!richTextArray.length) {
@@ -154,7 +196,11 @@ const defaultBlockRenderers = {
   },
 };
 
-function renderBlockList(blocks: IBlock[], key: string, renderer: IRenderer) {
+function renderBlockList(
+  blocks: IBlock[],
+  key: string,
+  renderer: IRenderer
+): VNode[] {
   return blocks.map((block, i) => renderBlock(block, `${key}-${i}`, renderer));
 }
 
@@ -196,11 +242,11 @@ const RichText = ({
   return formatLists(removeNulls(results));
 };
 
-function removeNulls(array) {
+function removeNulls(array: VNode[]) {
   return array.filter((item) => item !== null);
 }
 
-function formatLists(blocks) {
+function formatLists(blocks: any[]): VNode[] {
   const output = [];
   const indexesToRemove = [];
   let lastBlock: VNode = null;
